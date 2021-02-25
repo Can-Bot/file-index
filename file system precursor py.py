@@ -1,6 +1,10 @@
 import os  
 import json
 
+fileListName = "fileList.txt"
+jsonFile = "fileTable.json"
+dictFileName = "dictFile.txt"
+
 def fileTableAdd(fileTable):
     try:
         fileName = input("Input the name of the file you would like to add")
@@ -30,7 +34,38 @@ def fileTableAdd(fileTable):
     file.close()
     print("closed file")
     return
+
+# Takes the list of files in the module and idexes them
+def fileTableAddByList(fileTable): 
+    #Creates a list of file Names that will be indexed
+    fileList = open(fileListName, "r").readline().strip().split(",")
     
+    for fileName in fileList:
+        try:
+            file = open(fileName, "r")
+            # get file stats
+            # size
+            stats = os.stat(file)
+            # directory
+            dirName = os.path.dirname(file)
+            # base name
+            baseName = os.path.basename(file)
+            #name
+            fileNameBase = baseName[0]
+            #extention
+            fileNameExt = baseName[1]
+            file.close()
+            
+            fileTable[fileName] = {"Name":str(fileNameBase), 
+                               "Extention":str(fileNameExt), 
+                               "Size": stats, 
+                               "Directory" : dirName,
+                               "File": file}
+            
+        except:
+            print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")             
+    return
+
 def fileTableRem(fileTable):
     try:
         fileName = input("Input the name of the file you would like to remove")
@@ -80,9 +115,9 @@ def default():
 
 def main():
     cont = True
-    fileTable = open("fileTable", "w")
+    fileTable = open(dictFileName, "w")
     while cont == True:        
-        userIn = input("Would you like to (C)lear the file table, (A)dd a new file, (R)emove a file, (S)tore the table, (J)SONify the table or (Q)uit the program?  ")
+        userIn = input("Would you like to (C)lear the file table, (A)dd a new file, Add files by (L)ist, (R)emove a file, (S)tore the table, (J)SONify the table or (Q)uit the program?  ")
         
         if userIn == "A" or userIn == "a": 
             fileTableAdd(fileTable)
@@ -97,6 +132,8 @@ def main():
             cont = False
         elif userIn == "J" or userIn == "j":
             fileTableJSON(fileTable)
+        elif userIn == "L" or userIn == "l":
+            fileTableAddByList(fileTable)
         else:
             default()
     return
