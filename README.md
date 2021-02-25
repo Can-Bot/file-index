@@ -12,9 +12,11 @@ Once run, the program will prompt you to ask which action you want to take
 
 When providing file names, only provide the name or directory.
 
-
+In order to add files by list, provide a .txt file of a list of the names or directories of the files meant to be indexed, with the names separated with commas called "fileList.txt"
+ 
 HOW TO MAKE AUTORUN WORK:
-The AutoRun programme is meant to be compiled and run by the MCU
+
+The AutoRun programme is meant to be compiled and run in the MCU where the files will already be stored
 
 In order for the program to work, a .txt file of a list of the names or directories of the files meant to be indexed, with the names separated with commas called "fileList.txt" must be made
 
