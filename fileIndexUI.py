@@ -18,20 +18,20 @@ def fileTableAdd(fileTable):
         # base name
         baseName = os.path.basename(file)
         #name
-        fileNameBase = baseName[0]
+        fileNameBase = baseName.split(".")[0]
         #extention
-        fileNameExt = baseName[1]
+        fileNameExt = baseName.split(".")[1]
         
+        file.close()
     except:
-        print("Something went wrong with the file, check the file name given or the file itself")
+        print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")
         return
     
-    fileTable[fileName] = {"Name":str(fileNameBase), 
+    fileTable[baseName] = {"Name":str(fileNameBase), 
                            "Extention":str(fileNameExt), 
                            "Size": stats, 
                            "Directory" : dirName,
                            "File": file}
-    file.close()
     print("closed file")
     return
 
@@ -66,6 +66,17 @@ def fileTableAddByList(fileTable):
             print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")             
     return
 
+#Grabs dict from .json file
+def addByJson():
+    with open(jsonFile, "r") as outfile:
+        newDict = json.load(outfile)       
+        for key in newDict.keys():
+            fileTable[key] = newDict[key]
+            fileTable[key]["File"] = open(key, "r")
+    outfile.close()
+    return 
+
+
 def fileTableRem(fileTable):
     try:
         fileName = input("Input the name of the file you would like to remove")
@@ -91,7 +102,10 @@ def clearTable(fileTable):
     return
 
 def storeTable(fileTable):
-    newFile = open("fileTable", "w")
+    with open(dictFileName, "w") as newFile:
+        newFile.write(str(fileTable))
+        newFile.close() 
+    return
 
 def quitProg(fileTable):
     fileTable.close()
@@ -117,7 +131,7 @@ def main():
     cont = True
     fileTable = open(dictFileName, "w")
     while cont == True:        
-        userIn = input("Would you like to (C)lear the file table, (A)dd a new file, Add files by (L)ist, (R)emove a file, (S)tore the table, (J)SONify the table or (Q)uit the program?  ")
+        userIn = input("Would you like to (C)lear the file table, (A)dd a new file, Add files by (L)ist, Add (B)y json file, (R)emove a file, (S)tore the table, (J)SONify the table or (Q)uit the program?  ")
         
         if userIn == "A" or userIn == "a": 
             fileTableAdd(fileTable)
@@ -128,12 +142,13 @@ def main():
         elif userIn == "S" or userIn == "s":
             storeTable(fileTable)
         elif userIn == "Q" or userIn == "q":
-            fileTable.close()
             cont = False
         elif userIn == "J" or userIn == "j":
             fileTableJSON(fileTable)
         elif userIn == "L" or userIn == "l":
             fileTableAddByList(fileTable)
+        elif userIn == "B" or userIn == "b":
+            addByJson()
         else:
             default()
     return
