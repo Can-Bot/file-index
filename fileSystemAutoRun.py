@@ -7,12 +7,13 @@ jsonFile = "fileTableAutoRun.json"
 dictFileName = "dictFileAutoRun.txt"
 
 fileTable = {}
-# Takes the list of files in the module and idexes them
-def fileTableAdd(fileTable):
 
+# Takes the list of files in the module and idexes them
+def fileTableAdd(fileTable): 
+    
     #Creates a list of file Names that will be indexed
     fileList = open(fileListName, "r").readline().strip().split(",")
-
+    
     for fileName in fileList:
         try:
             file = open(fileName, "r")
@@ -24,21 +25,21 @@ def fileTableAdd(fileTable):
             # base name
             baseName = os.path.basename(file)
             #name
-            fileNameBase = baseName[0]
+            fileNameBase = baseName.split(".")[0]
             #extention
-            fileNameExt = baseName[1]
+            fileNameExt = baseName.split(".")[1]
             file.close()
-
-            fileTable[fileName] = {"Name":str(fileNameBase),
-                               "Extention":str(fileNameExt),
-                               "Size": stats,
+            
+            fileTable[baseName] = {"Name":str(fileNameBase), 
+                               "Extention":str(fileNameExt), 
+                               "Size": stats, 
                                "Directory" : dirName,
                                "File": file}
-
+            
         except:
-            print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")
-
-
+            print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")        
+        
+        
     return
 
 
