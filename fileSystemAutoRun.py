@@ -22,45 +22,47 @@ class ImageEntry:
 
 
 # Takes the list of files in the module and idexes them
-def fileTableAdd(fileTable): 
-    
-    #Creates a list of file Names that will be indexed
+def fileTableAdd(fileTable):
+
+    #   Creates a list of file Names that will be indexed
     fileList = open(fileListName, "r").readline().strip().split(",")
-    
+
     for fileName in fileList:
         try:
 
-			with open(fileName, "rb") as im:
-				#gets byteArray
-				f = im.read()
-				bArray = bytearray(f)
+                im = Image.open(fileName, "rb")
 
-				# Image Size
-				imWidth = im.size()[0]
+                # gets byteArray
+                f = im.read()
+                bArray = bytearray(f)
 
-				imHeight = im.size()[1]
+                # Image Width
+                imWidth = im.size()[0]
 
-				# base name
-				baseName = os.path.basename(file)
-				#name
-				fileNameBase = fileName.split(".")[0]
-				#extention
-				fileNameExt = fileName.split(".")[1]
+                # Image Height
+                imHeight = im.size()[1]
 
-				im.close()
-				
-				fileTable[baseName] = {"Name":str(fileNameBase), 
-								"Extention":str(fileNameExt),
-								"Width": imWidth,
-								"Height": imHeight,
-								"bAlen" : len(bArray),
-								"ByteArray": str(bArray)}
-            
+                # base name
+                baseName = os.path.basename(file)
+                # name
+                fileNameBase = fileName.split(".")[0]
+                # extention
+                fileNameExt = fileName.split(".")[1]
+
+                im.close()
+
+                fileTable[baseName] = {"Name": str(fileNameBase),
+                                    "Extention": str(fileNameExt),
+                                    "Width": imWidth,
+                                    "Height": imHeight,
+                                    "bAlen": len(bArray),
+                                    "ByteArray": str(bArray)}
+
         except:
-            print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")        
-        
-        
+            print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")
+
     return
+
 
 
 #Creates a json file using the fileTable
