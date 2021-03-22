@@ -1,5 +1,7 @@
 import os
 import json
+from PIL import *
+
 
 #These are the files that the program will create/use
 fileListName = "fileList.txt"
@@ -7,6 +9,17 @@ jsonFile = "fileTableAutoRun.json"
 dictFileName = "dictFileAutoRun.txt"
 
 fileTable = {}
+
+#class for each image
+class ImageEntry:
+	def __init__(name,Extention,Width,Height,bAlen,bArray):
+		self.name = name
+		self.Extention = Extention
+		self.Width = Width
+		self.Height = Height
+		self.bAlen = bAlen
+		self.bArray = bArray
+
 
 # Takes the list of files in the module and idexes them
 def fileTableAdd(fileTable): 
@@ -16,25 +29,32 @@ def fileTableAdd(fileTable):
     
     for fileName in fileList:
         try:
-            file = open(fileName, "r")
-            # get file stats
-            # size
-            stats = os.stat(file)
-            # directory
-            dirName = os.path.dirname(file)
-            # base name
-            baseName = os.path.basename(file)
-            #name
-            fileNameBase = baseName.split(".")[0]
-            #extention
-            fileNameExt = baseName.split(".")[1]
-            file.close()
-            
-            fileTable[baseName] = {"Name":str(fileNameBase), 
-                               "Extention":str(fileNameExt), 
-                               "Size": stats, 
-                               "Directory" : dirName,
-                               "File": file}
+
+			with open(fileName, "rb") as im:
+				#gets byteArray
+				f = im.read()
+				bArray = bytearray(f)
+
+				# Image Size
+				imWidth = im.size()[0]
+
+				imHeight = im.size()[1]
+
+				# base name
+				baseName = os.path.basename(file)
+				#name
+				fileNameBase = fileName.split(".")[0]
+				#extention
+				fileNameExt = fileName.split(".")[1]
+
+				im.close()
+				
+				fileTable[baseName] = {"Name":str(fileNameBase), 
+								"Extention":str(fileNameExt),
+								"Width": imWidth,
+								"Height": imHeight,
+								"bAlen" : len(bArray),
+								"ByteArray": str(bArray)}
             
         except:
             print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")        

@@ -1,7 +1,12 @@
 # UGR-file-indexing-system
 This is a file indexing system for UGR made by Can Gural Tanova
 
-HOW TO MAKE PRECURSOR WORK:
+Required Libraries:
+json
+Pillow
+
+
+HOW TO MAKE IT WORK:
 
 
 Have all of the files you want to index in the same folder as the prrogram
