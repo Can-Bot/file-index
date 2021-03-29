@@ -30,23 +30,26 @@ def fileTableAdd(fileTable):
 
     for fileName in fileList:
 
-     # try:
+      try:
 
         with Image.open(fileName) as im:
 
+			# name
+          fileNameBase = fileName.split(".")[0]
+			# extention
+          fileNameExt = fileName.split(".")[1]
+
 			# gets byteArray
-          imByteArr = io.BytesIO()
-          imByteArr = imByteArr.getvalue()
+          buf = io.BytesIO()
+          im.save(buf, format=fileNameExt)
+          imByteArr = buf.getvalue()
 
 			# Image Width
           imWidth = im.size[0]
 			# Image Height
           imHeight = im.size[1]
 
-			# name
-          fileNameBase = fileName.split(".")[0]
-			# extention
-          fileNameExt = fileName.split(".")[1]
+
 
           im.close()
 
@@ -57,8 +60,8 @@ def fileTableAdd(fileTable):
 															"bAlen": len(imByteArr),
 															"ByteArray": str(imByteArr)
 														}
-    #  except:
-     #   print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")
+      except:
+        print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")
 
     print(fileTable)
     return
