@@ -1,0 +1,1 @@
+{'Test1.jpeg': {'Name': 'Test1', 'Extention': 'jpeg', 'Width': 320, 'Height': 240, 'bAlen': 0, 'ByteArray': "b''"}, 'Test2.jpeg': {'Name': 'Test2', 'Extention': 'jpeg', 'Width': 320, 'Height': 240, 'bAlen': 0, 'ByteArray': "b''"}}

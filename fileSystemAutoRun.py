@@ -1,6 +1,7 @@
 import os
+import io
 import json
-from PIL import *
+from PIL import Image
 
 
 #These are the files that the program will create/use
@@ -28,39 +29,38 @@ def fileTableAdd(fileTable):
     fileList = open(fileListName, "r").readline().strip().split(",")
 
     for fileName in fileList:
-        try:
 
-                im = Image.open(fileName, "rb")
+     # try:
 
-                # gets byteArray
-                f = im.read()
-                bArray = bytearray(f)
+        with Image.open(fileName) as im:
 
-                # Image Width
-                imWidth = im.size()[0]
+			# gets byteArray
+          imByteArr = io.BytesIO()
+          imByteArr = imByteArr.getvalue()
 
-                # Image Height
-                imHeight = im.size()[1]
+			# Image Width
+          imWidth = im.size[0]
+			# Image Height
+          imHeight = im.size[1]
 
-                # base name
-                baseName = os.path.basename(file)
-                # name
-                fileNameBase = fileName.split(".")[0]
-                # extention
-                fileNameExt = fileName.split(".")[1]
+			# name
+          fileNameBase = fileName.split(".")[0]
+			# extention
+          fileNameExt = fileName.split(".")[1]
 
-                im.close()
+          im.close()
 
-                fileTable[baseName] = {"Name": str(fileNameBase),
-                                    "Extention": str(fileNameExt),
-                                    "Width": imWidth,
-                                    "Height": imHeight,
-                                    "bAlen": len(bArray),
-                                    "ByteArray": str(bArray)}
+          fileTable[fileName] = {"Name": str(fileNameBase),
+															"Extention": str(fileNameExt),
+															"Width": imWidth,
+															"Height": imHeight,
+															"bAlen": len(imByteArr),
+															"ByteArray": str(imByteArr)
+														}
+    #  except:
+     #   print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")
 
-        except:
-            print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")
-
+    print(fileTable)
     return
 
 
@@ -70,17 +70,17 @@ def fileTableJSON(fileTable):
     jsonDict = {}
     with open(jsonFile, "w") as outfile:
         jsonDict = fileTable
-        for fileKey in jsonDict.keys():
-            fileTable[fileKey].pop("File")
+#        for fileKey in jsonDict.keys():
+#            fileTable[fileKey].pop("File")
         json.dump(jsonDict, outfile, indent=4)
-    file.close()
+    outfile.close()
     return
 
 #Creates a txt file to store dicts in
 def createDictFile(exDict):
     newFile = open(dictFileName, "w")
     newFile.write(str(exDict))
-    file.close()
+    newFile.close()
     return
 
 

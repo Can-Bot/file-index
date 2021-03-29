@@ -3,7 +3,7 @@ This is a file indexing system for UGR made by Can Gural Tanova
 
 Required Libraries:
 json
-Pillow
+Pillow (PIL)
 
 
 HOW TO MAKE IT WORK:
