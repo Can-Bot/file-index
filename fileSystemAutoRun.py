@@ -9,9 +9,13 @@ fileListName = "fileList.txt"
 jsonFile = "fileTableAutoRun.json"
 dictFileName = "dictFileAutoRun.txt"
 
-fileTable = {}
+try:
+	fileTable = json.load(open(jsonFile))
+except:
+	fileTable = {}
 
-#class for each image
+
+#class for each image UNUSED
 class ImageEntry:
 	def __init__(name,Extention,Width,Height,bAlen,bArray):
 		self.name = name
@@ -63,7 +67,7 @@ def fileTableAdd(fileTable):
       except:
         print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")
 
-    print(fileTable)
+    #print(fileTable)
     return
 
 
