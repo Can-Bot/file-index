@@ -1,6 +1,4 @@
-import os
-import io
-import json
+import json, io, os
 from PIL import Image
 
 
@@ -44,9 +42,37 @@ def fileTableAdd(fileTable):
           fileNameExt = fileName.split(".")[1]
 
 			# gets byteArray
-          buf = io.BytesIO()
-          im.save(buf, format=fileNameExt)
-          imByteArr = buf.getvalue()
+          #buf = io.BytesIO()
+          #imRGB = im.convert("RGB")          
+          #imRGB.save(buf, format=fileNameExt)
+          #imByteFor = buf.getvalue()
+
+          pixel_list = list(im.getdata())
+          imByteArr = ""
+          imIntArr = []
+          
+          for pix in pixel_list:
+            r = (pix[0] >> 3) & 0x1F
+            g = (pix[1] >> 2) & 0x3F
+            b = (pix[2] >> 3) & 0x1F
+
+            rStr = (str(bin(r)).strip('0b'))
+            if len(rStr) < 5 :
+              rMiss = 5 - len(rStr)
+              rStr = ("0" * rMiss) + rStr    
+
+            gStr = (str(bin(g)).strip('0b'))
+            if len(gStr) < 6 :
+              gMiss = 6 - len(gStr)
+              gStr = ("0" * gMiss) + gStr      
+
+            bStr = (str(bin(b)).strip('0b'))
+            if len(bStr) < 5 :
+              bMiss = 5 - len(bStr)
+              bStr = ("0" * bMiss) + bStr   
+
+            imByteArr = imByteArr + (rStr + gStr + bStr)
+            imIntArr.append((r,g,b))
 
 			# Image Width
           imWidth = im.size[0]
@@ -62,8 +88,12 @@ def fileTableAdd(fileTable):
 															"Width": imWidth,
 															"Height": imHeight,
 															"bAlen": len(imByteArr),
-															"ByteArray": str(imByteArr)
+															"ByteArray": imByteArr
 														}
+
+          binF = open("duck.bin", "wb")
+          
+          binF.write(imByteArr.encode('utf-8'))
       except:
         print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")
 
