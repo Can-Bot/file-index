@@ -122,10 +122,11 @@ def fileTableJSON(fileTable):
 
 #Creates a txt file to store dicts in
 def createDictFile(exDict):
-    newFile = open(dictFileName, "w")
-    newFile.write(str(exDict))
-    newFile.close()
-    return
+		print("opening dict file")
+		newFile = open(dictFileName, "w")
+		newFile.write(str(exDict))
+		newFile.close()
+		return
 
 #calls each functions
 fileTableAdd(fileTable)
