@@ -34,3 +34,8 @@ The names of the files needed and created can be changed in the first few lines 
 
 ### Processing:
 
+Using the PIL module, the pixel list is taken from the image file. The pixel list is separated into the rgb values per pixel and these values are converted from hex to binary. The binary rgb values are stitched together in accordance to rgb565 format and added to the byte array list that will be included in the final dictionary.
+
+The other desired qualities are extracted from the file using the PIL module and all of the desired values are added into the dictionary.
+
+The `createDictFile(exDict)` and `fileTableJSON(fileTable)` functions check whether files with file-names stated on the first few lines of the program exist and create or append the newly indexed files onto those files accordingly.
