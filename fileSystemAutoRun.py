@@ -10,9 +10,11 @@ dictFileName = "dictFileAutoRun.txt" #txt file of the dictionary
 #if the json file is present, it is loaded as the file table.
 try:
 	fileTable = json.load(open(jsonFile))
+	print("File table found")
 except:
 	# A new dictionary is used as the file table otherwise.
 	fileTable = {}
+	print("File table created")
 
 
 #class for each image UNUSED
@@ -30,8 +32,9 @@ except:
 def fileTableAdd(fileTable):
     #Creates a list of file Names that will be indexed
 		fileList = open(fileListName, "r").readline().strip().split(",")
-		print("getting file")
+		print(fileList)
 		for fileName in fileList:
+			print("getting file", fileName)
 			try:
 
 				with Image.open(fileName) as im:
@@ -96,12 +99,9 @@ def fileTableAdd(fileTable):
 														"Width": imWidth,
 														"Height": imHeight,
 														"bAlen": len(imByteArr),
-														"ByteArray": bin(int(imByteArr))
+														"hexByteArray": pixel_list,
+														"ByteArray": imByteArr
 														}
-
-          # Testing for creating bin files
-					#binF = open("duck.bin", "wb")
-          #binF.write(imByteArr.encode('utf-8'))
 
 			except:
 				print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")
@@ -128,7 +128,7 @@ def createDictFile(exDict):
 		newFile.close()
 		return
 
-#calls each functions
+#calls each function
 fileTableAdd(fileTable)
 fileTableJSON(fileTable)
 createDictFile(fileTable)
