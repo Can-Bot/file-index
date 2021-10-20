@@ -43,7 +43,10 @@ def fileTableAdd(fileTable):
 					fileNameBase = fileName.split(".")[0]
 			# extention
 					fileNameExt = fileName.split(".")[1]
-
+					if fileNameExt == "png":
+						print("This software cannot process png files")
+						pass
+						
 			# old method of getting the bytearray
 			# gets byteArray
           #buf = io.BytesIO()
@@ -56,15 +59,22 @@ def fileTableAdd(fileTable):
 					imByteArr = ""
 					imIntArr = []
           
+					print(pixel_list)
 					# loop that separates the pixel list into rgb values and converts to rgb565 format
 					print("separating and converting pixels")
 					
 					for pix in pixel_list:
-						#separates to rgb values and converts into hex
-						r = (pix[0] >> 3) & 0x1F
-						g = (pix[1] >> 2) & 0x3F
-						b = (pix[2] >> 3) & 0x1F
+						#turns empty/transparent pixels black
+						if pix == None:
+							r,g,b = 0
+						else:
+							#separates to rgb values and converts into hex
+							r = (pix[0] >> 3) & 0x1F
+							g = (pix[1] >> 2) & 0x3F
+							b = (pix[2] >> 3) & 0x1F
 
+						#print(r,g,b)
+						
 						# turns each value into a string and adjusts to 565 format
 						rStr = (str(bin(r)).strip('0b'))
 						if len(rStr) < 5 :
@@ -107,7 +117,7 @@ def fileTableAdd(fileTable):
 				print("Something went wrong with file, ", fileName,  " check the file name given or the file itself")
 
     #print(fileTable)
-			return
+		return
 
 
 
