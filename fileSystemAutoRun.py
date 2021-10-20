@@ -46,7 +46,7 @@ def fileTableAdd(fileTable):
 					if fileNameExt == "png":
 						print("This software cannot process png files")
 						pass
-						
+
 			# old method of getting the bytearray
 			# gets byteArray
           #buf = io.BytesIO()
@@ -59,7 +59,7 @@ def fileTableAdd(fileTable):
 					imByteArr = ""
 					imIntArr = []
           
-					print(pixel_list)
+					#print(pixel_list)
 					# loop that separates the pixel list into rgb values and converts to rgb565 format
 					print("separating and converting pixels")
 					
